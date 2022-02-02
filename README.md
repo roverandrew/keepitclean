@@ -21,8 +21,19 @@
     </li>
     <li><a href="#api-documentation">API Documentation</a></li>
     <li><a href="#sdk-reference">SDK Reference</a></li>
-    <li><a href="#further-considerations">Further Considerations</a></li>
-    <li><a href="#discussion">Discussion</a></li>
+    <li><a href="#future-considerations">Future Considerations</a>
+        <ul>
+            <li><a href="#training-our-model">Using Our Own Data To Help Train Our ML Model</a></li>
+            <li><a href="#automating-providing-of-api-keys">Automating Providing Of API Keys</a></li>
+            <li><a href="#format-of-sanitized-text">Format Of Sanitized Text</a></li>
+        </ul>
+    </li>
+    <li><a href="#discussion">Discussion</a>
+        <ul>
+            <li><a href="#why-websockets">Why WebSockets over HTTP?</a></li>
+            <li><a href="#why-serverless">Why Serverless?</a></li>
+        </ul>
+    </li>
     <li><a href="#reference">Reference</a></li>
 </ul>
 <br>
@@ -111,7 +122,7 @@
 
 <br>
 <h2 id="api-documentation">API Documentation</h2></p>
-<p><b>Base Server:</b> <code>wss://api.keepitclean.com`</code></p>
+<p><b>Base Server:</b> <code>wss://api.keepitclean.com</code></p>
 <p><b>Security:</b> An API key is a token that you provide when making API calls.</p>
 <p>Include the token on opening of a WebSocket connection in a query parameter.</p>
 <p>The query parameter is called<code>appid</code> Example: <code>?appid=123</code></p>
@@ -171,14 +182,14 @@
     <td>A score from 1-99 representing the likelihood a text contains inappropriate content.
        <ul>
          <li>A score of 1 indicates a very low chance that a text contains inappropriate content</li>
-         <li>A score of 99 indicates a very high chance that a text contains inapropriate content</li>
+         <li>A score of 99 indicates a very high chance that a text contains inappropriate content</li>
       </ul>
     </td>
     <td>integer</td>
   </tr>
   <tr>
     <td>sanitizedText</td>
-    <td>Returns text sanitized based on the inputted <code>alternativeText</code> or <code>alternativeWord</code> parameters</td>
+    <td>Returns text sanitized based on the inputted <code>alternativeText</code> parameter</td>
     <td>string</td>
   </tr>
 </table>
@@ -209,7 +220,7 @@ ws.send({
 **Response Example 2**
 ```
 {
-  "score": "7",
+  "score": "70",
   "sanitizedText": "&lt;This text has been censored as it has been deemed to contain inappropriate content&gt;"
 }
 ```
@@ -234,28 +245,94 @@ Example 2:
 {
   content: "Shit. The quick brown fox jumps over the lazy dog, but does this text contain foul language?".
   threshold: 5,
-  alternativeWord: "&gt;Explicit Word&lt;"
+  alternativeWord: "<Explicit Word>"
 }
 ```
 
 <h3><code>spam.connect()</code></h3>
-<p>Opens a connection to the WebSocket</p>
+<p>Opens a connection to the WebSocket.</p>
 <br>
 <h3><code>spam.disconnect()</code></h3>
-<p>Closes the connection to the WebSocket</p>
+<p>Closes the connection to the WebSocket.</p>
 <br>
 <h3><code>spam.score(options)</code></h3>
 <p>Returns an integer score from 1-99 representing the likelihood a text contains inappropriate content.</p>
 <br>
 <h3><code>spam.alternativeText(options)</code></h3>
-<p>If the calculated spam score exceeds the passed `threshold` value, returns an alternative text based on passed the `alternativeText` parameter. 
-Else, the original text is returned.</p>
+<p>
+    If the calculated spam score exceeds the passed `threshold` value, returns an alternative text based on passed the `alternativeText` parameter. 
+    Else, the original text is returned.
+</p>
 
 <br>
-<h2 id="further-considerations">Further Considerations</h2>
-
+<h2 id="future-considerationss">Future Considerations</h2>
+<h3 id="training-our-model">Using Our Own Data To Help Train Our ML Model</h3>
+<p>
+   Our current version of the Keep It Clean API relies on a pre-trained ML Model. A potential feature is thus building out the ability for client users to
+   send content that was incorrectly labelled as inappropriate/not inappropriate. This data can then be used to further train and thus improve our model.
+   However, this feature may only lead to noticeable detection improvements when dealing with incorrectly labelled data at a very large scale. 
+   Consequently, this feature is not deemed to be a priority for the initial release, but it can be of value in the future, and should be kept in mind.
+</p>
+<h3 id="automating-providing-of-api-keys">Automating Providing Of API Keys</h3>
+<p>
+   With our current implementation, API keys are manually provided to our clients for use by their users. We believe this to be sufficient for an initial release,
+   but acknowledge it is not a scaleable solution. In the future, automation of payment processing and consequently API key providing to our clients would be
+   a useful feature to develop.
+</p>
+<h3 id="format-of-sanitized-text">Format Of Sanitized Text</h3>
+<p>
+    When an <code>alternativeText</code> parameter is passed to the request, clients may invoke the <code>spam.alternativeText</code> function to receive
+    an alternative text for inappropriate content. The following question may then arise:
+    "why not provide the same text with the inappropriate content removed on a per-word basis?" 
+    This feature was considered, but ultimately abandoned. The reasoning is as follows: Users may still infer any inappropriate language
+    in a message chat even if it replaced with an alternative word. For example, for the following text: "That guy is a piece of &lt;Explicit&gt;", it can
+    still easily be inferred what is being written. For this reason we believe implementing such a feature is simply not worth the added engineering cost,
+    and instead choose to mark the entire message as inappropriate.
+</p>
 <br>
 <h2 id="discussion">Discussion</h2>
+<h3 id="why-websockets">Why WebSockets over HTTP?</h3>
+<ol>
+    <li><p><b>Lower latency compared to HTTP</b></p>
+        <p>
+           The decision to use WebSockets was taken due to the real-time nature of a chat application. 
+           The single, persistent connection opened by a WebSocket allows for much lower latency between the client and the server. 
+           Due to the instantaneous nature of chat applications, 
+           we believe that a quick response time for the detecting and blocking of data to be extremely important to the user experience.
+        </p>
+    </li>
+    <li><p><b>Added engineering overhead is worth the increase in user experience</b></p></li>
+        <p>
+           WebSockets require a bit more engineering cost in order to maintain the connections betweeen the clients. 
+           But we do not believe it to be significant enough for the real-time benefits to not be worthwhile.
+        </p>
+    <li><p><b>Although browser support is less than HTTP, it is more than sufficient</b></p>
+        <p>
+            We do not believe WebSocket's relatively lower browser support compared to HTTP to be an issue.
+            Nearly all browsers developed after 2011 support it, and nearly all people using a browser before 2011 will not be using a chat application anyway.
+        </p>
+    </li>
+</ol>
+
+<h3 id="why-serverless">Why Serverless?</h3>
+<ol>
+    <li><p><b>Automatic infrastructure maintenance</b></p>
+        <p>
+            Things like deployments, OS updates and patches are all done under the hood, 
+            allowing developers to focus on code rather than the infastructure behind it.
+        </p>
+    </li>
+    <li><p><b>Automatic scaling</b></p>
+        <p>
+            AWS Lambda automatically scales to support the rate of incoming requests.
+        </p>
+    </li>
+    <li><p><b>Cheap</b></p>
+        <p>
+            AWS Lambda charges on a per-invocation basis. Since it only invokes code when it is needed, it ends up being very cost effective.
+        </p>
+    </li>
+</ol>
 
 <br>
 <h2 id="reference">Reference</h2>
