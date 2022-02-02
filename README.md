@@ -75,10 +75,13 @@
     </li>
 </ol>
 <p><b>References</b></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-create-empty-api.html" target="_blank">
+    AWS Documentation: Create a WebSocket API in API Gateway
+</a></p>
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html" target="_blank">
     AWS Documentation: Using API Gateway Lambda authorizers
 </a></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html" target="_blank">
     AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
 </a></p>
 <br>
