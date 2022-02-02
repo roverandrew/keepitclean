@@ -63,8 +63,7 @@
 <br>
 <p><b>Steps 1-3:</b></p>
 <ol>
-    <li>Client calls AWS API WebSocket Gateway endpoint. If client has not already connected to the WebSocket, their connection request is to be authenticated
-        as outlined in the following steps (2-3). Else, their connection request can skip authentication, and will proceed to <a href="#step-4">Step 4</a>.
+    <li>Client calls AWS API WebSocket Gateway endpoint. If client has not already connected to the WebSocket, their connection request is to be authenticated.           If they have already been authenticated, their connection request can skip authentication, and will proceed to <a href="#step-3-auth">Step 3: a) Option I.</a>
     </li>
     <li>Authorization
         <ol type="a">
@@ -78,7 +77,7 @@
         <ol type="a">
             <li>API Gateway makes a request based on the policy returned by the Authorizer Handler. Either:
                 <ol type="I">
-                    <li>Client user connects to the WebSocket. 
+                    <li id="step-3-auth">Client user connects to the WebSocket. 
                         This indicates that the policy has been evaluated to an authenticated request. The Connect Route Handler is then invoked.
                     </li>
                     <li>403 network error is returned to the client. This indicates that the policy has been evaluated to an unauthenticated request.</li>
@@ -135,12 +134,12 @@
 <p>The query parameter is called<code>appid</code> Example: <code>?appid=123</code></p>
 
 <br>
-<h3>Connecting to:<b> <code>/spamdetection</code></b></h3>
+<h3>Connecting to:<b> <code>/detect</code></b></h3>
 <p><b>Opening the WebSocket Sample: Javascript</b></p>
-<p><code>new Websocket('wss://api.keepitclean.com?appid=&lt;YOUR-API-KEY-HERE&gt;')</code></p>
+<p><code>const ws = new Websocket('wss://api.keepitclean.com/detect?appid=&lt;YOUR-API-KEY-HERE&gt;')</code></p>
 
 <br>
-<h3>Sending data to:<b> <code>/spamdetection</code></b></h3>
+<h3>Sending data to:<b> <code>/detect</code></b></h3>
 <p>Analyzes text for inappropriate content such as spam, foul language, harassment, and adult content.</p>
 <h3>Web Socket Request</h3>
 <p><b>Web Socket Request Object Parameters</b><p>
@@ -232,9 +231,9 @@ ws.send({
 }
 ```
 
-<h3>Disconnecting from:<b> <code>/spamdetection</code></b></h3>
+<h3>Disconnecting from:<b> <code>/detect</code></b></h3>
 <b>Closing the WebSocket Sample: Javascript</b>
-<p><code>WebSocket.close()</code></p>
+<p><code>ws.close()</code></p>
 
 <br>
 <h2 id="sdk-reference">SDK Reference</h2>
@@ -256,19 +255,19 @@ Example 2:
 }
 ```
 
-<h3><code>spam.connect()</code></h3>
+<h3><code>contentCleaner.connect()</code></h3>
 <p>Opens a connection to the WebSocket.</p>
 <br>
-<h3><code>spam.disconnect()</code></h3>
+<h3><code>contentCleaner.disconnect()</code></h3>
 <p>Closes the connection to the WebSocket.</p>
 <br>
-<h3><code>spam.score(options)</code></h3>
+<h3><code>contentCleaner.score(options)</code></h3>
 <p>Returns an integer score from 1-99 representing the likelihood a text contains inappropriate content.</p>
 <br>
-<h3><code>spam.alternativeText(options)</code></h3>
+<h3><code>contentCleaner.alternativeText(options)</code></h3>
 <p>
-    If the calculated spam score exceeds the passed `threshold` value, returns an alternative text based on passed the `alternativeText` parameter. 
-    Else, the original text is returned.
+    If the calculated inappropriate content score exceeds the passed `threshold` value, 
+    returns an alternative text based on passed the `alternativeText` parameter. Else, the original text is returned.
 </p>
 
 <br>
@@ -288,8 +287,8 @@ Example 2:
 </p>
 <h3 id="format-of-sanitized-text">Format Of Sanitized Text</h3>
 <p>
-    When an <code>alternativeText</code> parameter is passed to the request, clients may invoke the <code>spam.alternativeText</code> function to receive
-    an alternative text for inappropriate content. The following question may then arise:
+    When an <code>alternativeText</code> parameter is passed to the request, clients may invoke the <code>contentCleaner.alternativeText</code> 
+    function to receive an alternative text for inappropriate content. The following question may then arise:
     "why not provide the same text with the inappropriate content removed on a per-word basis?" 
     This feature was considered, but ultimately abandoned. The reasoning is as follows: Users may still infer any inappropriate language
     in a message chat even if it replaced with an alternative word. For example, for the following text: "That guy is a piece of &lt;Explicit&gt;", it can
