@@ -1,15 +1,71 @@
 <h1>Keep It Clean</h1>
 <p>:wave: Welcome to Keep It Clean! An SDK designed to help chatbots detect and block inappropriate content.</p>
 
-<br>
-
-<h2>Table of Contents</h2>
+<h3>Table of Contents</h3>
 <ul>
+    <li><a href="#api-structure">API Structure</a></li>
+    <li><a href="#api-build-guide">API Build Guide</a>
+        <ul>
+            <li><a href="#api-gateway">API Gateway</a></li>
+        </ul>
+    </li>
     <li><a href="#api-documentation">API Documentation</a></li>
     <li><a href="#sdk-reference">SDK Reference</a></li>
 </ul>
 
-<br>
+<br><br>
+<h2 id="api-structure">API Structure</h2>
+<p>Insert image here</p>
+
+<br><br>
+<h2 id="api-build-guide">API Build Guide</h2>
+<h3 id="api-gateway">API Gateway</h3>
+<p><b>Authentication</b><p>
+Upon opening a chatbot a user must make a request to the API Gateway, and provide an authorization token, in our case, an API key. If the API key is valid, the user may make use of the inappropriate content detection features provided by our service. The client provides their users with an API key via a subscription to the <em>Keep It Clean</em> service.
+
+<p><b>Steps:</b></p>
+<ol>
+    <li>Client user calls AWS API WebSocket Gateway endpoint. If client user has already connected to the WebSocket, skip to <a href="#step-4">Step 4</a></li>
+    <li>Authorization
+        <ol type="a">
+            <li>Gateway invokes the Authorizer AWS Lambda handler, passing the context of the request and the authorization token as parameters</li>
+            <li>Authorizer Handler queries the AWS DynamoDB for valid tokens that match the passed token</li>
+            <li>DynamoDB returns a valid token match to the Authorizer Handler, if it exists</li>
+            <li>Authorizer Handler returns a policy stating how the request is to be dealt with, i.e. if it is to be authorized or not.</li>
+        </ol>
+    </li>
+    <li>Connect to the WebSocket
+        <ol type="a">
+            <li>API Gateway makes a request based on the policy returned by the Authorizer Handler.
+                <ol type="upper-roman">
+                    <li>Connect to the WebSocket. Policy has been evaluated to an authenticated request. Connect Route Handler is invoked.</li>
+                    <li>Return a 403 network error to the client user. Policy has been evaluated to an unauthenticated request.</li>
+                </ol>
+            </li>
+            <li>Connect Route Handler saves the client ID to the DynamoDB for data persistence. 
+                Thus indicating a WebSocket is to opened indefinitely for the given Client ID
+            </li>
+        </ol>
+        <p><b>NOTE:</b> policies that evaluate to an authenticated request are to be cached, thus allowing an authorized user to skip the invokation of the                 Authorizer Handler for any subsequent requests (for a set period of time) made to the API Gateway. For our use case, caching time should be sent to 30             minutes. <b>Users with cached policies that evaluate to an authenticated request are to skip step 3 and go to <a href="#step-4">step 4.</a></b>
+        </p>
+    </li>
+    <li id="step-4"> Request inappropriate content detection data
+        <ol type="a">
+            <li>Invoke Spam Detection Route Handler</li>
+            <li>Request user ID from DynamoDB</li>
+            <li>Return user ID</li>
+            <li>Machine learning step next?</li>
+        </ol>
+    </li>
+</ol>
+
+<p><b>Useful Resources</b></p>
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
+    AWS Documentation: Using API Gateway Lambda authorizers
+</a></p>
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
+    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
+</a></p>
 
 <h2 id="api-documentation">API Documentation</h2></p>
 <p><b>Base Server:</b>  <code>https://api.keepitclean.com`</code></p>
