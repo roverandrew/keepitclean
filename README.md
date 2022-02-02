@@ -7,7 +7,6 @@
         <ul>
             <li><a href="#problem-summary">Problem Summary</a></li>
             <li><a href="#solution-business-logic">Solution Business Logic</a></li>
-            <li><a href="#stakeholders">Stakeholders</a></li>
         </ul>
     </li>
     <li><a href="#api-structure-diagram">API Structure Diagram</a></li>
@@ -39,11 +38,19 @@
 <br>
 <h2 id="introduction">Introduction</h2>
 <h3 id="problem-summary">Problem Summary</h3>
-<p>SUMMARY CONTENT</p>
+
+<p><b>From the client's perspective</b><p>
+<p>As a stakeholder of a chat application, I would like to integrate an easy-to-use inappropriate content detection service, 
+   allowing us to focus on improving our app, rather than detecting and blocking inappropriate content.
+</p>
+
+<p><b>From the client's user perspective</b><p>
+<p>As a user of a chat application, I would like any required inappropriate content filter to be accurate and responsive.
+</p>
+
 <h3 id="solution-business-logic">Solution Business Logic</h3>
 <p>PROPOSED SOLUTION CONTENT</p>
-<h3 id="stakeholders">Stakeholders</h3>
-<p>STAKEHOLDERS CONTENT</p>
+
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
 <p>Insert image here</p>
