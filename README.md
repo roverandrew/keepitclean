@@ -1,8 +1,15 @@
-<h1>Keep It Clean</h1>
+<h1>Keep It Clean Functional Specification Document</h1>
 <p>:wave: Welcome to Keep It Clean! An SDK designed to help chatbots detect and block inappropriate content.</p>
-
-<h3>Table of Contents</h3>
+<br>
+<h2>Table of Contents</h2>
 <ul>
+    <li><a href="#introduction">Introduction</a>
+        <ul>
+            <li><a href="#problem-summary">Problem Summary</a></li>
+            <li><a href="#solution-business-logic">Solution Business Logic</a></li>
+            <li><a href="#stakeholders">Stakeholders</a></li>
+        </ul>
+    </li>
     <li><a href="#api-structure-diagram">API Structure Diagram</a></li>
     <li><a href="#api-build-guide">API Build Guide</a>
         <ul>
@@ -14,19 +21,26 @@
     </li>
     <li><a href="#api-documentation">API Documentation</a></li>
     <li><a href="#sdk-reference">SDK Reference</a></li>
+    <li><a href="#further-considerations">Further Considerations</a></li>
+    <li><a href="#discussion">Discussion</a></li>
 </ul>
-
-<br><br>
+<br>
+<h2 id="introduction">Introduction</h2>
+<h3 id="problem-summary">Problem Summary</h3>
+<p>SUMMARY CONTENT</p>
+<h3 id="solution-business-logic">Solution Business Logic</h3>
+<p>PROPOSED SOLUTION CONTENT</p>
+<h3 id="stakeholders">Stakeholders</h3>
+<p>STAKEHOLDERS CONTENT</p>
+<br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
 <p>Insert image here</p>
-
-<br><br>
+<br>
 <h2 id="api-build-guide">API Build Guide</h2>
-
 <h3 id="connecting-to-websocket">WebSocket Connection & Authentication</h3>
 <p>Upon opening the given chat application, the client is to make a request to the API Gateway, and provide an authorization token, in our case, an API key. If the API key is valid, the user may make use of the inappropriate content detection features provided by our service. The client provides their users with an API key via a subscription to the <em>Keep It Clean</em> service.</p>
 
-<p><em>Note: </em>The following steps map to those outlined in the <a href="api-structure-diagram">API Structure Diagram</a><p>
+<p><em>Note:</em> The following steps map to those outlined in the <a href="api-structure-diagram">API Structure Diagram</a><p>
 <br>
 <p><b>Steps 1-3:</b></p>
 <ol>
@@ -60,15 +74,14 @@
         </p>
     </li>
 </ol>
-<br>
-<p><b>Relevant Resources</b></p>
+<p><b>References</b></p>
 <p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
     AWS Documentation: Using API Gateway Lambda authorizers
 </a></p>
 <p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
     AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
 </a></p>
-<br><br>
+<br>
 <h3 id="request-detection-data">Requesting Inappropriate Content Detection Data</h3>
 <p id="step-4">Step 4:</p>
 
@@ -78,8 +91,15 @@
     <li>Request connection ID from DynamoDB.</li>
     <li>Return connection ID from DynamoDB. Detect Inappropriate Content Lambda Function checks if a connection is still open.</li>
 </ol>
+<p><b>References</b></p>
+<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
+    AWS Documentation: Using API Gateway Lambda authorizers
+</a></p>
+<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
+    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
+</a></p>
 
-<br><br>
+<br>
 <h3 id="return-detection-data">Determining and Returning Inappropriate Content Detection Data</h3>
 <p id="step-5">Step 5:</p>
 
@@ -91,11 +111,14 @@
     </li>
     <li>Data is then returned to the client</li>
 </ol>
-
-<p><b>Business Logic:</b></p>
-<p>business logic crap fdsfsfdsfd</p>
-
-<br><br>
+<p><b>References</b></p>
+<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
+    AWS Documentation: Using API Gateway Lambda authorizers
+</a></p>
+<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
+    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
+</a></p>
+<br>
 <h3 id="disconnection-from-websocket">Disconnnecting From The WebSocket</h3>
 <p id="step-6">Step 6:</p>
 <ol type="a">
@@ -103,8 +126,15 @@
     <li>Query for connection ID of user who has disconnected from the WebSocket, and delete their ID.
         Thus closing the WebSocket for their associated ID.</li>
 </ol>
+<p><b>References</b></p>
+<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
+    AWS Documentation: Using API Gateway Lambda authorizers
+</a></p>
+<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
+    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
+</a></p>
 
-<br><br>
+<br>
 <h2 id="api-documentation">API Documentation</h2></p>
 <p><b>Base Server:</b> <code>wss://api.keepitclean.com`</code></p>
 <p><b>Security:</b> An API key is a token that you provide when making API calls.</p>
@@ -116,8 +146,7 @@
 <p><b>Opening the WebSocket Sample: Javascript</b></p>
 <p><code>new Websocket('wss://api.keepitclean.com?appid=&lt;YOUR-API-KEY-HERE&gt;')</code></p>
 
-
-<br><br>
+<br>
 <h3>Sending data to:<b> <code>/spamdetection</code></b></h3>
 <p>Analyzes text for inappropriate content such as spam, foul language, harassment, and adult content.</p>
 <h3>Web Socket Request</h3>
@@ -210,14 +239,11 @@ ws.send({
 }
 ```
 
-<br>
 <h3>Disconnecting from:<b> <code>/spamdetection</code></b></h3>
 <b>Closing the WebSocket Sample: Javascript</b>
 <p><code>WebSocket.close()</code></p>
 
 <br>
-<br>
-
 <h2 id="sdk-reference">SDK Reference</h2>
 
 All request parameters are to be passed to the following functions via an object.<br>
@@ -233,7 +259,7 @@ Example 2:
 {
   content: "Shit. The quick brown fox jumps over the lazy dog, but does this text contain foul language?".
   threshold: 5,
-  alternativeWord: "<Explicit Word>"
+  alternativeWord: "&gt;Explicit Word&lt;"
 }
 ```
 
@@ -249,3 +275,9 @@ Example 2:
 <h3><code>spam.alternativeText(options)</code></h3>
 <p>If the calculated spam score exceeds the passed `threshold` value, returns an alternative text based on passed the `alternativeText` parameter. 
 Else, the original text is returned.</p>
+
+<br>
+<h2 id="further-considerations">Further Considerations</h2>
+
+<br>
+<h2 id="discussion">Discussion</h2>
