@@ -1,5 +1,5 @@
 <h1>Keep It Clean Functional Specification Document</h1>
-<p>:wave: Welcome to Keep It Clean! An SDK designed to help chatbots detect and block inappropriate content.</p>
+<p>:wave: Welcome to Keep It Clean! An SDK designed to help chat applications detect and block inappropriate content.</p>
 <br>
 <h2>Table of Contents</h2>
 <ul>
@@ -23,6 +23,7 @@
     <li><a href="#sdk-reference">SDK Reference</a></li>
     <li><a href="#further-considerations">Further Considerations</a></li>
     <li><a href="#discussion">Discussion</a></li>
+    <li><a href="#reference">Reference</a></li>
 </ul>
 <br>
 <h2 id="introduction">Introduction</h2>
@@ -45,7 +46,7 @@
 <p><b>Steps 1-3:</b></p>
 <ol>
     <li>Client calls AWS API WebSocket Gateway endpoint. If client has not already connected to the WebSocket, their connection request is to be authenticated
-        as outlined in the following steps (2-3). Else, their connection request can skip authentication, and will skip to <a href="#step-4">Step 4</a>.
+        as outlined in the following steps (2-3). Else, their connection request can skip authentication, and will proceed to <a href="#step-4">Step 4</a>.
     </li>
     <li>Authorization
         <ol type="a">
@@ -69,38 +70,22 @@
                 This will be used later to know which socket ID data the returned inappropriate content data should be sent to.
             </li>
         </ol>
-        <p><b>NOTE:</b> Policies that evaluate to an authenticated request are to be cached, thus allowing an authorized user to skip the invokation of the                 Authorizer Handler for any subsequent requests (for a set period of time) made to the API Gateway. For our use case, caching time should be set to 30             minutes.<b>Users with cached policies that evaluate to an authenticated request are to have their request skip step 3&4 and 
-          go to <a href="#step-4">step 4.</a></b>
+        <p><b>NOTE:</b> Policies that evaluate to an authenticated request are to be cached, thus allowing an authorized user to skip the invokation of the                 Authorizer Handler for any subsequent requests (for a set period of time) made to the API Gateway. For our use case, caching time should be set to 30             minutes. <b>Users with cached policies that evaluate to an authenticated request are to have their request skip step 3 & 4 and 
+          go to <a href="#step-4"> step 4.</a></b>
         </p>
     </li>
 </ol>
-<p><b>References</b></p>
-<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-create-empty-api.html" target="_blank">
-    AWS Documentation: Create a WebSocket API in API Gateway
-</a></p>
-<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html" target="_blank">
-    AWS Documentation: Using API Gateway Lambda authorizers
-</a></p>
-<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html" target="_blank">
-    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
-</a></p>
+
 <br>
 <h3 id="request-detection-data">Requesting Inappropriate Content Detection Data</h3>
 <p id="step-4">Step 4:</p>
 
 <ol type="a">
-    <li>Invoke Detect Inappropriate Content Lambda Function. Once 4a)-5b) are completed, this service executes our business based on the parameters passed                 in the request. Our business logic can be seen detailed <a href="business-logic">here</a>.
+    <li>Invoke Detect Inappropriate Content Lambda Function. Once 4a)-5b) are completed, this service executes our business based on the parameters passed                 in the request. Our business logic can be seen detailed <a href="solution-business-logic">here</a>.
     </li>
     <li>Request connection ID from DynamoDB.</li>
     <li>Return connection ID from DynamoDB. Detect Inappropriate Content Lambda Function checks if a connection is still open.</li>
 </ol>
-<p><b>References</b></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
-    AWS Documentation: Using API Gateway Lambda authorizers
-</a></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
-    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
-</a></p>
 
 <br>
 <h3 id="return-detection-data">Determining and Returning Inappropriate Content Detection Data</h3>
@@ -114,13 +99,7 @@
     </li>
     <li>Data is then returned to the client</li>
 </ol>
-<p><b>References</b></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
-    AWS Documentation: Using API Gateway Lambda authorizers
-</a></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
-    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
-</a></p>
+
 <br>
 <h3 id="disconnection-from-websocket">Disconnnecting From The WebSocket</h3>
 <p id="step-6">Step 6:</p>
@@ -129,13 +108,6 @@
     <li>Query for connection ID of user who has disconnected from the WebSocket, and delete their ID.
         Thus closing the WebSocket for their associated ID.</li>
 </ol>
-<p><b>References</b></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
-    AWS Documentation: Using API Gateway Lambda authorizers
-</a></p>
-<p><a href="wss://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
-    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
-</a></p>
 
 <br>
 <h2 id="api-documentation">API Documentation</h2></p>
@@ -284,3 +256,27 @@ Else, the original text is returned.</p>
 
 <br>
 <h2 id="discussion">Discussion</h2>
+
+<br>
+<h2 id="reference">Reference</h2>
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-create-empty-api.html">
+    AWS Documentation: Create a WebSocket API in API Gateway
+</a></p>
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">
+    AWS Documentation: Using API Gateway Lambda authorizers
+</a></p>
+<p><a href="https://docs.aws.amazon.com/lambda/index.html">
+    AWS Documentation: Lambda
+</a></p>
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-lambda-auth.html">
+    AWS Documentation: Creating a Lambda REQUEST authorizer function with the <em>Websocket</em> API
+</a></p>
+<p><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-route-keys-connect-disconnect.html#apigateway-websocket-api-routes-about-connect">
+    AWS Documentation: Managing connected users and client apps: $connect and $disconnect routes
+</a></p>
+<p><a href="https://docs.aws.amazon.com/dynamodb/">
+    AWS Documentation: DynamoDB
+</a></p>
+<p><a href="https://docs.aws.amazon.com/s3/index.html">
+    AWS Documentation: S3
+</a></p>
