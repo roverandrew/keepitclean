@@ -167,7 +167,7 @@
                 </ol>
             </li>
             <li>Connect Route Handler saves the WebSocket connection ID to the DynamoDB. 
-                This will be used later to know which socket ID data the returned inappropriate content data should be sent to.
+                Tracking of the connection IDs may be used for throttling and removing connections.
             </li>
         </ol>
         <p><b>NOTE:</b> Policies that evaluate to an authenticated request are to be cached, thus allowing an authorized user to skip the invokation of the                 Authorizer Handler for any subsequent requests (for a set period of time) made to the API Gateway. For our use case, caching time should be set to 30             minutes.
@@ -189,7 +189,7 @@
     <li>Return pre-trained ML model from S3.</li>
     <li>Run ML Model on supplied text and determine data that is to be sent back to the API Gateway.
     </li>
-    <li>Data is then returned from the gateway to the client</li>
+    <li>Data is then returned from the gateway to the client.</li>
 </ol>
 
 <br>
@@ -199,7 +199,7 @@
     <li>Invoke Disconnect Route Handler.</li>
     <li>Query for connection ID of user who has disconnected from the WebSocket, and delete their ID.
         Keeping track of IDs is not required, but is a good practice in case for example we would like to throttle any connections 
-        or have further control over who disconnects.
+        or have further control over who disconnects. Features built on top of the current implementation are likely to make use of it.
     </li>
 </ol>
 
