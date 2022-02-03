@@ -6,7 +6,13 @@
     <li><a href="#introduction">Introduction</a>
         <ul>
             <li><a href="#problem-summary">Problem Summary</a></li>
-            <li><a href="#solution-business-logic">Business Logic</a></li>
+            <li><a href="#solution-overviewe">Solution Overview</a></li>
+        </ul>
+    </li>
+    <li><a href="#solution-business-logic">Business Logic</a>
+         <ul>
+            <li><a href="#inputs-outputs">Inputs & Outputs</a></li>
+            <li><a href="#business-logic-flowchart">Flowchart</a></li>
         </ul>
     </li>
     <li><a href="#api-structure-diagram">API Structure Diagram</a></li>
@@ -49,12 +55,15 @@
 </p>
 
 <br>
-<h3 id="solution-business-logic">Business Logic</h3>
+<h3 id="solution-overview">Solution Overview</h3>
 <p>Clients may call the <code>contentCleaner.cleanedContentData(options)</code> as they see fit depending on their business requirements.
 <p>
     To check a message for inappropriate content, the client would call the above function when a user receives a message, passing the message content to the         function.
 </p>
+
 <br>
+<h2 id="business-logic">Business Logic</h2>
+<h3 id="inputs-outputs">Inputs & Output</h3>
 <p><b>The following details the input parameters:</b></p>
 <table>
   <tr>
@@ -106,15 +115,17 @@
     <td>integer</td>
   </tr>
   <tr>
-    <td>sanitizedText</td>
+    <td>cleanText</td>
     <td>Returns text sanitized based on the inputted <code>alternativeText</code> parameter</td>
     <td>string</td>
   </tr>
 </table>
 
 <br>
+<h3 id="business-logic-flowchart">Flowchart</h3>
 <p><b>The following details the structure of the returned data based on the supplied parameters:</b></p>
- <img src="https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg" width="800" height="600">
+<img src="https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg" width="800" height="600">
+
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
 <p>Insert image here</p>
@@ -258,7 +269,7 @@
     <td>integer</td>
   </tr>
   <tr>
-    <td>sanitizedText</td>
+    <td>cleanText</td>
     <td>Returns text sanitized based on the inputted <code>alternativeText</code> parameter</td>
     <td>string</td>
   </tr>
@@ -275,7 +286,7 @@ ws.send({
 ```
 {
   "score": "20",
-  "sanitizedText": "The quick brown fox jumps over the lazy dog, but does this text contain foul language?"
+  "cleanText": "The quick brown fox jumps over the lazy dog, but does this text contain foul language?"
 }
 ```
 
@@ -291,7 +302,7 @@ ws.send({
 ```
 {
   "score": "70",
-  "sanitizedText": "&lt;This text has been censored as it has been deemed to contain inappropriate content&gt;"
+  "cleanText": "&lt;This text has been censored as it has been deemed to contain inappropriate content&gt;"
 }
 ```
 
