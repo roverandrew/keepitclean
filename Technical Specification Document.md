@@ -9,7 +9,7 @@
             <li><a href="#solution-overview">Solution Overview</a></li>
         </ul>
     </li>
-    <li><a href="#solution-business-logic">Business Logic</a>
+    <li><a href="#solution-business-logic">Text Cleaning Business Logic</a>
          <ul>
             <li><a href="#inputs-outputs">Inputs & Outputs</a></li>
             <li><a href="#business-logic-flowchart">Flowchart</a></li>
@@ -54,10 +54,7 @@
 
 <br>
 <h3 id="solution-overview">Solution Overview</h3>
-<p>Clients may call the <code>textCleaner.cleanedTextData(options)</code> SDK function as they see fit depending on their business requirements.
-<p>
-    To check a message for inappropriate content, the client would call the above function when a user receives a message, passing the message content to the         function.
-</p>
+<p>Clients may detect and block inappropriate content by passing the text content to the <code>textCleaner.cleanedTextData(options)</code> SDK function.</p>
 <p>This function returns an object with two values: 1) <code>score</code> and 2) <code>cleanText</code></p>
 <p><code>score</code> represents the likelihood a text contains inappropriate content. 
     The higher the score the more likely the text contains inappropriate content. <code>score</code> gives the client flexibility in how potential explicit
@@ -71,9 +68,9 @@
 </p>
 
 <br>
-<h2 id="business-logic">Business Logic</h2>
+<h2 id="business-logic">Text Cleaning Business Logic</h2>
 <h3 id="inputs-outputs">Inputs & Output</h3>
-<p>Data is to be received from the client as a JSON object</p>
+<p>Data is to be received from the client as a JSON object.</p>
 <p><b>Input parameters:</b></p>
 <table>
   <tr>
@@ -134,12 +131,12 @@
 
 <br>
 <h3 id="business-logic-flowchart">Flowchart</h3>
-<p><b>The following details the structure of the returned data based on the supplied parameters:</b></p>
+<p>The following details the structure of the returned data based on the supplied parameters:</p>
 <img src="https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg" width="800" height="600">
 
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
-<p>Insert image here</p>
+<img src="https://github.com/roverandrew/keepitclean/blob/main/api-flowchart.jpg">
 <br>
 <h2 id="api-build-guide">API Build Guide</h2>
 <h3 id="connecting-to-websocket">WebSocket Connection & Authentication</h3>
@@ -180,11 +177,11 @@
 
 <br>
 <h3 id="return-detection-data">Determine and Return Inappropriate Content Detection Data</h3>
-<p><b>
+<p>
     Our Lambda Function uses the pre-trained model to run our proprietary ML algorithm 
     to determine whether the supplied content is inappropriate or not. Based on the output of the model and the passed parameters, 
     our business logic determines the data that is to be sent back to the API Gateway.
-</b></p>
+</p>
 <p id="step-4">Step 4:</p>
 <ol type="a">
     <li>Invoke Detect Inappropriate Content Lambda Function.</li>
@@ -192,7 +189,7 @@
     <li>Return pre-trained ML model from S3.</li>
     <li>Run ML Model on supplied text and determine data that is to be sent back to the API Gateway.
     </li>
-    <li>Data is then returned from the gateway to the client</li>
+    <li>Data is then returned from the gateway to the client.</li>
 </ol>
 
 <br>
@@ -291,7 +288,7 @@ ws.send({
 <b>Response Example</b>
 ```
 {
-  "score": "70",
+  "score": 70,
   "cleanText": "<This text has been censored as it has been deemed to contain inappropriate content>"
 }
 ```
