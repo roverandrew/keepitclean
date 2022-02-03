@@ -24,7 +24,7 @@
         </ul>
     </li>
     <li><a href="#api-documentation">API Documentation</a></li>
-    <li><a href="#sdk-reference">Javacsript SDK Reference</a></li>
+    <li><a href="#sdk-reference">Javascript SDK Reference</a></li>
     <li><a href="#future-considerations">Future Considerations</a>
         <ul>
             <li><a href="#training-our-model">Using Our Own Data To Help Train Our ML Model</a></li>
