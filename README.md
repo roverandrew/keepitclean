@@ -6,7 +6,7 @@
     <li><a href="#introduction">Introduction</a>
         <ul>
             <li><a href="#problem-summary">Problem Summary</a></li>
-            <li><a href="#solution-overviewe">Solution Overview</a></li>
+            <li><a href="#solution-overview">Solution Overview</a></li>
         </ul>
     </li>
     <li><a href="#solution-business-logic">Business Logic</a>
@@ -44,10 +44,9 @@
 <br>
 <h2 id="introduction">Introduction</h2>
 <h3 id="problem-summary">Problem Summary</h3>
-
 <p><b>From the client's perspective:</b><p>
-<p>As a stakeholder of a chat application, I would like to integrate an easy-to-use inappropriate content detection service, 
-   allowing us to focus on improving our app, rather than detecting and blocking inappropriate content.
+<p>As a stakeholder of a chat application, I would like to integrate an inappropriate content detection service into my application, 
+   allowing my focus to be on improving our product, rather than detecting and blocking inappropriate content.
 </p>
 
 <p><b>From the client's user perspective:</b><p>
@@ -56,9 +55,20 @@
 
 <br>
 <h3 id="solution-overview">Solution Overview</h3>
-<p>Clients may call the <code>contentCleaner.cleanedContentData(options)</code> as they see fit depending on their business requirements.
+<p>Clients may call the <code>textCleaner.cleanedTextData(options)</code> SDK function as they see fit depending on their business requirements.
 <p>
     To check a message for inappropriate content, the client would call the above function when a user receives a message, passing the message content to the         function.
+</p>
+<p>This function returns an object with two values: 1) <code>score</code> and 2) <code>cleanText</code></p>
+<p><code>score</code> represents the likelihood a text contains inappropriate content. 
+    The higher the score the more likely the text contains inappropriate content. <code>score</code> gives the client flexibility in how potential explicit
+    content is to be handled. They simply receive the likelihood, and decide themselves how they are to deal with it. This is beneficial to clients who may 
+    have stricter business requirements.
+</p>
+<p>
+    <code>cleanText</code> on the other hand benefits the client that has less care for flexibility and prefers ease of development.
+    Based on an inputted <code>alternativeText</code> value, any text deemed inappropriate is simply swapped with the alternative text.
+    Usually being something along the lines of "Explicit Content Detected".
 </p>
 
 <br>
@@ -76,15 +86,15 @@
   </tr>
   <tr>
     <td>content</td>
-    <td>text/image/video that is to be checked for inappropriate content.</td>
+    <td>text that is to be checked for inappropriate content.</td>
     <td>Yes</td>
     <td>string</td>
     <td>N/A</td>
   </tr>
   <tr>
     <td>threshold</td>
-    <td>Determines the threshold score in which a text/image/video is considered inappropriate. 
-        Used when a cleaned version of the inappropriate text/image/video is to be returned.</td>
+    <td>Determines the threshold score in which a text is considered inappropriate. 
+        Used when a cleaned version of the inappropriate text is to be returned.</td>
     <td>No</td>
     <td>integer</td>
     <td>30</td>
@@ -108,16 +118,16 @@
   </tr>
   <tr>
     <td>score</td>
-    <td>A score from 1-99 representing the likelihood a text/image/video contains inappropriate content.
+    <td>A score from 1-99 representing the likelihood a text contains inappropriate content.
        <ul>
-         <li>A score of 1 indicates a very low chance that a text/image/video contains inappropriate content.</li>
-         <li>A score of 99 indicates a very high chance that a text/image/video contains inappropriate content.</li>
+         <li>A score of 1 indicates a very low chance that a text contains inappropriate content.</li>
+         <li>A score of 99 indicates a very high chance that a text contains inappropriate content.</li>
       </ul>
     </td>
     <td>integer</td>
   </tr>
   <tr>
-    <td>cleanContent</td>
+    <td>cleanText</td>
     <td>Returns text stating that inappropriate content was detected. Text content determined by the inputted <code>alternativeText</code> parameter.</td>
     <td>string</td>
   </tr>
@@ -164,8 +174,7 @@
                 This will be used later to know which socket ID data the returned inappropriate content data should be sent to.
             </li>
         </ol>
-        <p><b>NOTE:</b> Policies that evaluate to an authenticated request are to be cached, thus allowing an authorized user to skip the invokation of the                 Authorizer Handler for any subsequent requests (for a set period of time) made to the API Gateway. For our use case, caching time should be set to 30             minutes. <b>Users with cached policies that evaluate to an authenticated request are to have their request skip step 3 & 4 and 
-          go to <a href="#step-4"> step 4.</a></b>
+        <p><b>NOTE:</b> Policies that evaluate to an authenticated request are to be cached, thus allowing an authorized user to skip the invokation of the                 Authorizer Handler for any subsequent requests (for a set period of time) made to the API Gateway. For our use case, caching time should be set to 30             minutes.
         </p>
     </li>
 </ol>
@@ -175,8 +184,7 @@
 <p id="step-4">Step 4:</p>
 
 <ol type="a">
-    <li>Invoke Detect Inappropriate Content Lambda Function. Once 4a)-5b) are completed, this service executes our business based on the parameters passed                 in the request. Our business logic can be seen detailed <a href="solution-business-logic">here</a>.
-    </li>
+    <li>Invoke Detect Inappropriate Content Lambda Function.</li>
     <li>Request connection ID from DynamoDB.</li>
     <li>Return connection ID from DynamoDB. Detect Inappropriate Content Lambda Function checks if a connection is still open.</li>
 </ol>
@@ -189,9 +197,10 @@
     <li>Request pre-trained ML model from S3.</li>
     <li>Return pre-trained ML model from S3.</li>
     <li>Our Lambda Function uses the pre-trained model to run our proprietary ML algorithm 
-        to determine whether the supplied content is inappropriate or not. Based on whether the content was deemed inappropriate or not, our business                     logic determines the data that is to be sent back to the gateway. This data is then sent to the API Gateway.
+        to determine whether the supplied content is inappropriate or not. Based on the output of the model and the passed parameters, 
+        our business logic determines the data that is to be sent back to the API Gateway. 
     </li>
-    <li>Data is then returned to the client</li>
+    <li>Data is then returned from the gateway to the client</li>
 </ol>
 
 <br>
@@ -230,15 +239,15 @@
   </tr>
   <tr>
     <td>content</td>
-    <td>text/image/video that is to be checked for inappropriate content.</td>
+    <td>text that is to be checked for inappropriate content.</td>
     <td>Yes</td>
     <td>string</td>
     <td>N/A</td>
   </tr>
   <tr>
     <td>threshold</td>
-    <td>Determines the threshold score in which a text/image/video is considered inappropriate. 
-        Used when a cleaned version of the inappropriate text/image/video is to be returned.</td>
+    <td>Determines the threshold score in which a text is considered inappropriate. 
+        Used when a cleaned version of the inappropriate text is to be returned.</td>
     <td>No</td>
     <td>integer</td>
     <td>30</td>
@@ -262,16 +271,16 @@
   </tr>
   <tr>
     <td>score</td>
-    <td>A score from 1-99 representing the likelihood a text/image/video contains inappropriate content.
+    <td>A score from 1-99 representing the likelihood a text contains inappropriate content.
        <ul>
-         <li>A score of 1 indicates a very low chance that a text/image/video contains inappropriate content.</li>
-         <li>A score of 99 indicates a very high chance that a text/image/video contains inappropriate content.</li>
+         <li>A score of 1 indicates a very low chance that a text contains inappropriate content.</li>
+         <li>A score of 99 indicates a very high chance that a text contains inappropriate content.</li>
       </ul>
     </td>
     <td>integer</td>
   </tr>
   <tr>
-    <td>cleanContent</td>
+    <td>cleanText</td>
     <td>Returns text stating that inappropriate content was detected. Text content determined by the inputted <code>alternativeText</code> parameter.</td>
     <td>string</td>
   </tr>
@@ -301,15 +310,15 @@ ws.send({
 <h2 id="sdk-reference">SDK Reference</h2>
 
 All request parameters are to be passed to the following functions via an object.<br>
-<h3><code>contentCleaner.connect()</code></h3>
+<h3><code>textCleaner.connect()</code></h3>
 <p>Opens a connection to the WebSocket.</p>
 
 <br>
-<h3><code>contentCleaner.disconnect()</code></h3>
+<h3><code>textCleaner.disconnect()</code></h3>
 <p>Closes the connection to the WebSocket.</p>
 
 <br>
-<h3><code>contentCleaner.cleanedContentData(options)</code></h3>
+<h3><code>textCleaner.cleanedTextData(options)</code></h3>
 
 <p><b>Input parameters:</b></p>
 <p>Parameters are to be passed via a Javascript object</p>
@@ -323,15 +332,15 @@ All request parameters are to be passed to the following functions via an object
   </tr>
   <tr>
     <td>content</td>
-    <td>text/image/video that is to be checked for inappropriate content.</td>
+    <td>text that is to be checked for inappropriate content.</td>
     <td>Yes</td>
     <td>string</td>
     <td>N/A</td>
   </tr>
   <tr>
     <td>threshold</td>
-    <td>Determines the threshold score in which a text/image/video is considered inappropriate. 
-        Used when a cleaned version of the inappropriate text/image/video is to be returned.</td>
+    <td>Determines the threshold score in which a text is considered inappropriate. 
+        Used when a cleaned version of the inappropriate text is to be returned.</td>
     <td>No</td>
     <td>integer</td>
     <td>30</td>
@@ -356,16 +365,16 @@ All request parameters are to be passed to the following functions via an object
   </tr>
   <tr>
     <td>score</td>
-    <td>A score from 1-99 representing the likelihood a text/image/video contains inappropriate content.
+    <td>A score from 1-99 representing the likelihood a text contains inappropriate content.
        <ul>
-         <li>A score of 1 indicates a very low chance that a text/image/video contains inappropriate content.</li>
-         <li>A score of 99 indicates a very high chance that a text/image/video contains inappropriate content.</li>
+         <li>A score of 1 indicates a very low chance that a text contains inappropriate content.</li>
+         <li>A score of 99 indicates a very high chance that a text contains inappropriate content.</li>
       </ul>
     </td>
     <td>integer</td>
   </tr>
   <tr>
-    <td>cleanContent</td>
+    <td>cleanText</td>
     <td>Returns text stating that inappropriate content was detected. Text content determined by the inputted <code>alternativeText</code> parameter.</td>
     <td>string</td>
   </tr>
@@ -373,6 +382,10 @@ All request parameters are to be passed to the following functions via an object
 
 <br>
 <h2 id="future-considerationss">Future Considerations</h2>
+<h3 id="multimedia-support">Multimedia support</h3>
+<p>
+   Currently, Keep It Clean API only supports detecting and blocking of text content. Our reasoning for doing so is as follows. Firstly, a significant portion of    inappropriate video and image content comes in the form of a spam link, which can already bedetected by our service. Secondly, image and video Analysis            is more computation heavy and thus more costly compared to text analysis. However, there are still many clients that would demand such a feature, so it may very well be a feature that is to be developed in the future.
+</p>
 <h3 id="training-our-model">Using Our Own Data To Help Train Our ML Model</h3>
 <p>
    Our current version of the Keep It Clean API relies on a pre-trained ML Model. A potential feature is thus building out the ability for client users to
@@ -380,16 +393,9 @@ All request parameters are to be passed to the following functions via an object
    However, this feature may only lead to noticeable detection improvements when dealing with incorrectly labelled data at a very large scale. 
    Consequently, this feature is not deemed to be a priority for the initial release, but it can be of value in the future, and should be kept in mind.
 </p>
-<h3 id="automating-providing-of-api-keys">Automating Providing Of API Keys</h3>
-<p>
-   With our current implementation, API keys are manually provided to our clients for use by their users. We believe this to be sufficient for an initial release,
-   but acknowledge it is not a scaleable solution. In the future, automation of payment processing and consequently API key providing to our clients would be
-   a useful feature to develop.
-</p>
 <h3 id="format-of-sanitized-text">Format Of Sanitized Text</h3>
 <p>
-    When an <code>alternativeText</code> parameter is passed to the request, clients may invoke the <code>contentCleaner.alternativeText</code> 
-    function to receive an alternative text for inappropriate content. The following question may then arise:
+    When an <code>alternativeText</code> parameter is passed to the request, clients may replace text identified as inappropriate, with the                           <code>cleanText</code> value. The following question may then arise:
     "why not provide the same text with the inappropriate content removed on a per-word basis?" 
     This feature was considered, but ultimately abandoned. The reasoning is as follows: Users may still infer any inappropriate language
     in a message chat even if it replaced with an alternative word. For example, for the following text: "That guy is a piece of &lt;Explicit&gt;", it can
