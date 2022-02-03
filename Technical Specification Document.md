@@ -132,11 +132,11 @@
 <br>
 <h3 id="business-logic-flowchart">Flowchart</h3>
 <p>The following details the structure of the returned data based on the supplied parameters:</p>
-<img src="https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg" width="800" height="600">
+<img src="https://github.com/roverandrew/keepitclean/blob/main/images/business-logic-flowchart.jpg" width="800" height="600">
 
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
-<img src="https://github.com/roverandrew/keepitclean/blob/main/api-flowchart.jpg">
+<img src="https://github.com/roverandrew/keepitclean/blob/main/images/api-flowchart.jpg">
 <br>
 <h2 id="api-build-guide">API Build Guide</h2>
 <h3 id="connecting-to-websocket">WebSocket Connection & Authentication</h3>
