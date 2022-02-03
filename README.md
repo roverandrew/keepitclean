@@ -347,7 +347,7 @@ All request parameters are to be passed to the following functions via an object
 <br>
 
 <p><b>Returned values:</b></p>
-<p>Values returned as a Javacript object</p>
+<p>Values returned as an object</p>
 <table>
   <tr>
     <th>Field</th>
