@@ -55,23 +55,7 @@
 </p>
 <br>
 <p>The following details the structure of the returned data based on the supplied parameters:</p>
-<p>When <code>contentCleaner.cleanedContentData(options)</code> a JSON object with the the following keys is <em>always</em> returned.</p>
-<p><b>If user only passes <code>content</code> as a parameter:</b><p>
-
-<p><em>If there is inappropriate content detected:</em></p>
-        <p><code>score</code> will be returned holding it's calculated value.</p>
-        <p><code>alternativeText</code> will be returned holding it's default value.</p>
-    <p><em>If there is NOT inappropriate content detected:</em></p>
-        <p><code>score</code> will be returned holding it's calculated value.</p>
-        <p><code>alternativeText</code> will be returned, holding the originally inputted text <code>content</code> as it's value.</p>
-<p><em>If user passes both <code>content</code> and <code>alternativeText</code>as a parameter:</em></p>
-    <p><em>If there is inappropriate content detected:</em></p>
-        <p><code>score</code> will be returned holding it's calculated value.</p>
-        <p><code>alternativeText</code> will be returned holding it's inputted value.</p>
-    <p><em>If there is NOT inappropriate content detected:</em></p>
-        <p><code>score</code> will be returned holding it's calculated value.</p>
-        <p><code>alternativeText</code> will be returned, holding the originally inputted text <code>content</code> as it's value.</p>
-    
+ ![business-logic-flowchart](https://user-images.githubusercontent.com/54918397/152265927-1f49dfab-4da7-4dfa-a5f5-cfb14b7a8ec4.jpg)
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
 <p>Insert image here</p>
