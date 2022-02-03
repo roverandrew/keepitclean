@@ -312,7 +312,7 @@ All request parameters are to be passed to the following functions via an object
 <h3><code>textCleaner.cleanedTextData(options)</code></h3>
 
 <p><b>Input parameters:</b></p>
-<p>Parameters are to be passed via a Javascript object</p>
+<p>Parameters are to be passed via an object.</p>
 <table>
   <tr>
     <th>Field</th>
@@ -347,7 +347,7 @@ All request parameters are to be passed to the following functions via an object
 <br>
 
 <p><b>Returned values:</b></p>
-<p>Values returned as an object</p>
+<p>Values returned as an object.</p>
 <table>
   <tr>
     <th>Field</th>
