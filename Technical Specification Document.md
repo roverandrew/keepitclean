@@ -142,7 +142,7 @@
 <h3 id="connecting-to-websocket">WebSocket Connection & Authentication</h3>
 <p>Upon opening the given chat application, the client is to make a request to the API Gateway, and provide an authorization token, in our case, an API key. If the API key is valid, the user may make use of the inappropriate content detection features provided by our service. The client provides their users with an API key via a subscription to the <em>Keep It Clean</em> service.</p>
 
-<p><em>Note:</em> The following steps map to those outlined in the <a href="api-structure-diagram">API Structure Diagram</a><p>
+<p><em>Note:</em> The following steps map to those outlined in the <a href="#api-structure-diagram">API Structure Diagram</a><p>
 <br>
 <p><b>Steps 1-3:</b></p>
 <ol>
@@ -180,7 +180,7 @@
 <p>
     Our Lambda Function uses the pre-trained model to run our proprietary ML algorithm 
     to determine whether the supplied content is inappropriate or not. Based on the output of the model and the passed parameters, 
-    our business logic determines the data that is to be sent back to the API Gateway.
+    our <a href="#business-logic-flowchart">business logic</a> determines the data that is to be sent back to the API Gateway.
 </p>
 <p id="step-4">Step 4:</p>
 <ol type="a">
