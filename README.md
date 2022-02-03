@@ -45,12 +45,12 @@
 <h2 id="introduction">Introduction</h2>
 <h3 id="problem-summary">Problem Summary</h3>
 
-<p><b>From the client's perspective</b><p>
+<p><b>From the client's perspective:</b><p>
 <p>As a stakeholder of a chat application, I would like to integrate an easy-to-use inappropriate content detection service, 
    allowing us to focus on improving our app, rather than detecting and blocking inappropriate content.
 </p>
 
-<p><b>From the client's user perspective</b><p>
+<p><b>From the client's user perspective:</b><p>
 <p>As a user of a chat application, I would like any required inappropriate content filter to be accurate and responsive.
 </p>
 
@@ -64,7 +64,8 @@
 <br>
 <h2 id="business-logic">Business Logic</h2>
 <h3 id="inputs-outputs">Inputs & Output</h3>
-<p><b>The following details the input parameters:</b></p>
+<p>Data is to be received from the client as a JSON object</p>
+<p><b>Input parameters:</b></p>
 <table>
   <tr>
     <th>Field</th>
@@ -75,29 +76,30 @@
   </tr>
   <tr>
     <td>content</td>
-    <td>Text that is to be checked for inappropriate context</td>
+    <td>text/image/video that is to be checked for inappropriate content.</td>
     <td>Yes</td>
     <td>string</td>
     <td>N/A</td>
   </tr>
   <tr>
     <td>threshold</td>
-    <td>Used when a sanitized version of the inappropriate text is to be returned. Determines the threshold score in which a text is considered inappropriate. Must be used with <code>alternativeText</code></td>
+    <td>Determines the threshold score in which a text/image/video is considered inappropriate. 
+        Used when a cleaned version of the inappropriate text/image/video is to be returned.</td>
     <td>No</td>
     <td>integer</td>
-    <td>40</td>
+    <td>30</td>
   </tr>
    <tr>
     <td>alternativeText</td>
-    <td>Used when a sanitized version of the inappropriate text is to be returned. An alternative text to replace the original. Must be used with                          <code>threshold</code>
-    </td>
+    <td>An alternative text to replace the original content, if the original content is deemed inappropriate.</td>
     <td>No</td>
     <td>string</td>
-    <td>&lt;This text has been censored as it has been deemed to contain inappropriate content&gt;</td>
+    <td>&lt;This content has been censored as it has been deemed to contain inappropriate content&gt;</td>
   </tr>
 </table>
 <br>
-<p><b>The following details the returned values:</b></p>
+<p><b>Returned values:</b></p>
+<p>Data is to be received by the client as an object for the given client's programming language.</p>
 <table>
   <tr>
     <th>Field</th>
@@ -106,17 +108,17 @@
   </tr>
   <tr>
     <td>score</td>
-    <td>A score from 1-99 representing the likelihood a text contains inappropriate content.
+    <td>A score from 1-99 representing the likelihood a text/image/video contains inappropriate content.
        <ul>
-         <li>A score of 1 indicates a very low chance that a text contains inappropriate content</li>
-         <li>A score of 99 indicates a very high chance that a text contains inappropriate content</li>
+         <li>A score of 1 indicates a very low chance that a text/image/video contains inappropriate content.</li>
+         <li>A score of 99 indicates a very high chance that a text/image/video contains inappropriate content.</li>
       </ul>
     </td>
     <td>integer</td>
   </tr>
   <tr>
-    <td>cleanText</td>
-    <td>Returns text sanitized based on the inputted <code>alternativeText</code> parameter</td>
+    <td>cleanContent</td>
+    <td>Returns text stating that inappropriate content was detected. Text content determined by the inputted <code>alternativeText</code> parameter.</td>
     <td>string</td>
   </tr>
 </table>
@@ -217,7 +219,7 @@
 <h3>Sending data to:<b> <code>/detect</code></b></h3>
 <p>Analyzes text for inappropriate content such as spam, foul language, harassment, and adult content.</p>
 <h3>Web Socket Request</h3>
-<p><b>Web Socket Request Object Parameters</b><p>
+<p><b>Web Socket JSON Request Object Parameters</b><p>
 <table>
   <tr>
     <th>Field</th>
@@ -228,25 +230,25 @@
   </tr>
   <tr>
     <td>content</td>
-    <td>Text that is to be checked for inappropriate context</td>
+    <td>text/image/video that is to be checked for inappropriate content.</td>
     <td>Yes</td>
     <td>string</td>
     <td>N/A</td>
   </tr>
   <tr>
     <td>threshold</td>
-    <td>Used when a sanitized version of the inappropriate text is to be returned. Determines the threshold score in which a text is considered inappropriate. Must be used with <code>alternativeText</code></td>
+    <td>Determines the threshold score in which a text/image/video is considered inappropriate. 
+        Used when a cleaned version of the inappropriate text/image/video is to be returned.</td>
     <td>No</td>
     <td>integer</td>
-    <td>40</td>
+    <td>30</td>
   </tr>
    <tr>
     <td>alternativeText</td>
-    <td>Used when a sanitized version of the inappropriate text is to be returned. An alternative text to replace the original. Must be used with                          <code>threshold</code>
-    </td>
+    <td>An alternative text to replace the original content, if the original content is deemed inappropriate.</td>
     <td>No</td>
     <td>string</td>
-    <td>&lt;This text has been censored as it has been deemed to contain inappropriate content&gt;</td>
+    <td>&lt;This content has been censored as it has been deemed to contain inappropriate content&gt;</td>
   </tr>
 </table>
 
@@ -260,49 +262,34 @@
   </tr>
   <tr>
     <td>score</td>
-    <td>A score from 1-99 representing the likelihood a text contains inappropriate content.
+    <td>A score from 1-99 representing the likelihood a text/image/video contains inappropriate content.
        <ul>
-         <li>A score of 1 indicates a very low chance that a text contains inappropriate content</li>
-         <li>A score of 99 indicates a very high chance that a text contains inappropriate content</li>
+         <li>A score of 1 indicates a very low chance that a text/image/video contains inappropriate content.</li>
+         <li>A score of 99 indicates a very high chance that a text/image/video contains inappropriate content.</li>
       </ul>
     </td>
     <td>integer</td>
   </tr>
   <tr>
-    <td>cleanText</td>
-    <td>Returns text sanitized based on the inputted <code>alternativeText</code> parameter</td>
+    <td>cleanContent</td>
+    <td>Returns text stating that inappropriate content was detected. Text content determined by the inputted <code>alternativeText</code> parameter.</td>
     <td>string</td>
   </tr>
 </table>
 
-<b>Request Sample 1: Javascript</b>
-```
-ws.send({ 
-    content:"The quick brown fox jumps over the lazy dog, but does this text contain foul language?" 
-})
-```
-
-**Response Example 1**
-```
-{
-  "score": "20",
-  "cleanText": "The quick brown fox jumps over the lazy dog, but does this text contain foul language?"
-}
-```
-
-**Request Sample 2:  Javascript**
+<b>Request Sample In Javascript</b>
 ```
 ws.send({
-    content: "Shit. The quick brown fox jumps over the lazy dog, but does this text contain foul language?",
-    threshold: 25,
+    "content": "Shit. The quick brown fox jumps over the lazy dog, but does this text contain foul language?",
+    "threshold": 25,
 })
 ```
 
-**Response Example 2**
+<b>Response Example</b>
 ```
 {
   "score": "70",
-  "cleanText": "&lt;This text has been censored as it has been deemed to contain inappropriate content&gt;"
+  "cleanText": "<This text has been censored as it has been deemed to contain inappropriate content>"
 }
 ```
 
@@ -314,42 +301,75 @@ ws.send({
 <h2 id="sdk-reference">SDK Reference</h2>
 
 All request parameters are to be passed to the following functions via an object.<br>
-Example 1:
-```
-{
-  text: "The quick brown fox jumps over the lazy dog, but does this text contain foul language?"
-}
-```
-
-Example 2:
-```
-{
-  content: "Shit. The quick brown fox jumps over the lazy dog, but does this text contain foul language?".
-  threshold: 5,
-  alternativeWord: "<Explicit Word>"
-}
-```
-
 <h3><code>contentCleaner.connect()</code></h3>
 <p>Opens a connection to the WebSocket.</p>
+
 <br>
 <h3><code>contentCleaner.disconnect()</code></h3>
 <p>Closes the connection to the WebSocket.</p>
-<br>
 
+<br>
 <h3><code>contentCleaner.cleanedContentData(options)</code></h3>
-<p>Parameters are to be passed in a Javascript object</p>
-<p>Option keys:</p>
-<p><b>content</b></p> : The content that is to bee analyzed for inappropriate content.
 
-<h3><code>contentCleaner.score(options)</code></h3>
-<p>Returns an integer score from 1-99 representing the likelihood a text contains inappropriate content.</p>
+<p><b>Input parameters:</b></p>
+<p>Parameters are to be passed via a Javascript object</p>
+<table>
+  <tr>
+    <th>Field</th>
+    <th>Definition</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td>content</td>
+    <td>text/image/video that is to be checked for inappropriate content.</td>
+    <td>Yes</td>
+    <td>string</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>threshold</td>
+    <td>Determines the threshold score in which a text/image/video is considered inappropriate. 
+        Used when a cleaned version of the inappropriate text/image/video is to be returned.</td>
+    <td>No</td>
+    <td>integer</td>
+    <td>30</td>
+  </tr>
+   <tr>
+    <td>alternativeText</td>
+    <td>An alternative text to replace the original content, if the original content is deemed inappropriate.</td>
+    <td>No</td>
+    <td>string</td>
+    <td>&lt;This content has been censored as it has been deemed to contain inappropriate content&gt;</td>
+  </tr>
+</table>
 <br>
-<h3><code>contentCleaner.alternativeText(options)</code></h3>
-<p>
-    If the calculated inappropriate content score exceeds the passed `threshold` value, 
-    returns an alternative text based on passed the `alternativeText` parameter. Else, the original text is returned.
-</p>
+
+<p><b>Returned values:</b></p>
+<p>Values returned as a Javacript object</p>
+<table>
+  <tr>
+    <th>Field</th>
+    <th>Definition</th>
+    <th>Type</th>
+  </tr>
+  <tr>
+    <td>score</td>
+    <td>A score from 1-99 representing the likelihood a text/image/video contains inappropriate content.
+       <ul>
+         <li>A score of 1 indicates a very low chance that a text/image/video contains inappropriate content.</li>
+         <li>A score of 99 indicates a very high chance that a text/image/video contains inappropriate content.</li>
+      </ul>
+    </td>
+    <td>integer</td>
+  </tr>
+  <tr>
+    <td>cleanContent</td>
+    <td>Returns text stating that inappropriate content was detected. Text content determined by the inputted <code>alternativeText</code> parameter.</td>
+    <td>string</td>
+  </tr>
+</table>
 
 <br>
 <h2 id="future-considerationss">Future Considerations</h2>
