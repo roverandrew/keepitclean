@@ -12,7 +12,7 @@
     <li><a href="#solution-business-logic">Text Cleaning Business Logic</a>
          <ul>
             <li><a href="#inputs-outputs">Inputs & Outputs</a></li>
-            <li><a href="#business-logic-flowchart">Flowchart</a></li>
+            <li id="business-logic-flowchart"><a href="#business-logic-flowchart">Flowchart</a></li>
         </ul>
     </li>
     <li><a href="#api-structure-diagram">API Structure Diagram</a></li>
@@ -136,13 +136,13 @@
 
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
-<img src="https://github.com/roverandrew/keepitclean/blob/main/api-flowchart.jpg">
+<img id="actual-api-structure-diagram"src="https://github.com/roverandrew/keepitclean/blob/main/api-flowchart.jpg">
 <br>
 <h2 id="api-build-guide">API Build Guide</h2>
 <h3 id="connecting-to-websocket">WebSocket Connection & Authentication</h3>
 <p>Upon opening the given chat application, the client is to make a request to the API Gateway, and provide an authorization token, in our case, an API key. If the API key is valid, the user may make use of the inappropriate content detection features provided by our service. The client provides their users with an API key via a subscription to the <em>Keep It Clean</em> service.</p>
 
-<p><em>Note:</em> The following steps map to those outlined in the <a href="api-structure-diagram">API Structure Diagram</a><p>
+<p><em>Note:</em> The following steps map to those outlined in the <a href="actual-api-structure-diagram">API Structure Diagram</a><p>
 <br>
 <p><b>Steps 1-3:</b></p>
 <ol>
