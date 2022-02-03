@@ -55,7 +55,7 @@
 </p>
 <br>
 <p>The following details the structure of the returned data based on the supplied parameters:</p>
- ![business-logic-flowchart](business-logic-flowchart.jpg)
+ ![business-logic-flowchart](https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg)
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
 <p>Insert image here</p>
