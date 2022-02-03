@@ -9,7 +9,7 @@
             <li><a href="#solution-overview">Solution Overview</a></li>
         </ul>
     </li>
-    <li><a href="#solution-business-logic">Business Logic</a>
+    <li><a href="#solution-business-logic">Text Cleaning Business Logic</a>
          <ul>
             <li><a href="#inputs-outputs">Inputs & Outputs</a></li>
             <li><a href="#business-logic-flowchart">Flowchart</a></li>
@@ -54,10 +54,7 @@
 
 <br>
 <h3 id="solution-overview">Solution Overview</h3>
-<p>Clients may call the <code>textCleaner.cleanedTextData(options)</code> SDK function as they see fit depending on their business requirements.
-<p>
-    To check a message for inappropriate content, the client would call the above function when a user receives a message, passing the message content to the         function.
-</p>
+<p>Clients may detect and block inappropriate content by passing the text content to the <code>textCleaner.cleanedTextData(options)</code> SDK function.</p>
 <p>This function returns an object with two values: 1) <code>score</code> and 2) <code>cleanText</code></p>
 <p><code>score</code> represents the likelihood a text contains inappropriate content. 
     The higher the score the more likely the text contains inappropriate content. <code>score</code> gives the client flexibility in how potential explicit
@@ -71,7 +68,7 @@
 </p>
 
 <br>
-<h2 id="business-logic">Business Logic</h2>
+<h2 id="business-logic">Text Cleaning Business Logic</h2>
 <h3 id="inputs-outputs">Inputs & Output</h3>
 <p>Data is to be received from the client as a JSON object</p>
 <p><b>Input parameters:</b></p>
@@ -134,7 +131,7 @@
 
 <br>
 <h3 id="business-logic-flowchart">Flowchart</h3>
-<p><b>The following details the structure of the returned data based on the supplied parameters:</b></p>
+<p>The following details the structure of the returned data based on the supplied parameters:</p>
 <img src="https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg" width="800" height="600">
 
 <br>
