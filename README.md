@@ -136,7 +136,7 @@
 
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
-<img src="https://github.com/roverandrew/keepitclean/blob/main/chat-app-bot.jpg">
+<img src="https://github.com/roverandrew/keepitclean/blob/main/api-flowchart.jpg">
 <br>
 <h2 id="api-build-guide">API Build Guide</h2>
 <h3 id="connecting-to-websocket">WebSocket Connection & Authentication</h3>
