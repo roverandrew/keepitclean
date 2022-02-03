@@ -19,9 +19,8 @@
     <li><a href="#api-build-guide">API Build Guide</a>
         <ul>
             <li><a href="#connecting-to-websocket">WebSocket Connection & Authentication</a></li>
-            <li><a href="#request-detection-data">Requesting Inappropriate Content Detection Data</a></li>
-            <li><a href="#return-detection-data">Determining and Returning Inappropriate Content Detection Data</a></li>
-            <li><a href="#disconnection-from-websocket">Disconnecting From The WebSocket</a></li>
+            <li><a href="#return-detection-data">Determine and Return Inappropriate Content Detection Data</a></li>
+            <li><a href="#disconnection-from-websocket">Disconnect From The WebSocket</a></li>
         </ul>
     </li>
     <li><a href="#api-documentation">API Documentation</a></li>
@@ -180,36 +179,31 @@
 </ol>
 
 <br>
-<h3 id="request-detection-data">Requesting Inappropriate Content Detection Data</h3>
+<h3 id="return-detection-data">Determine and Return Inappropriate Content Detection Data</h3>
+<p><b>
+    Our Lambda Function uses the pre-trained model to run our proprietary ML algorithm 
+    to determine whether the supplied content is inappropriate or not. Based on the output of the model and the passed parameters, 
+    our business logic determines the data that is to be sent back to the API Gateway.
+</b></p>
 <p id="step-4">Step 4:</p>
-
 <ol type="a">
     <li>Invoke Detect Inappropriate Content Lambda Function.</li>
-    <li>Request connection ID from DynamoDB.</li>
-    <li>Return connection ID from DynamoDB. Detect Inappropriate Content Lambda Function checks if a connection is still open.</li>
-</ol>
-
-<br>
-<h3 id="return-detection-data">Determining and Returning Inappropriate Content Detection Data</h3>
-<p id="step-5">Step 5:</p>
-
-<ol type="a">
     <li>Request pre-trained ML model from S3.</li>
     <li>Return pre-trained ML model from S3.</li>
-    <li>Our Lambda Function uses the pre-trained model to run our proprietary ML algorithm 
-        to determine whether the supplied content is inappropriate or not. Based on the output of the model and the passed parameters, 
-        our business logic determines the data that is to be sent back to the API Gateway. 
+    <li>Run ML Model on supplied text and determine data that is to be sent back to the API Gateway.
     </li>
     <li>Data is then returned from the gateway to the client</li>
 </ol>
 
 <br>
-<h3 id="disconnection-from-websocket">Disconnnecting From The WebSocket</h3>
-<p id="step-6">Step 6:</p>
+<h3 id="disconnection-from-websocket">Disconnnect From The WebSocket</h3>
+<p id="step-5">Step 5:</p>
 <ol type="a">
     <li>Invoke Disconnect Route Handler.</li>
     <li>Query for connection ID of user who has disconnected from the WebSocket, and delete their ID.
-        Thus closing the WebSocket for their associated ID.</li>
+        Keeping track of IDs is not required, but is a good practice in case for example we would like to throttle any connections 
+        or have further control over who disconnects.
+    </li>
 </ol>
 
 <br>
@@ -381,7 +375,7 @@ All request parameters are to be passed to the following functions via an object
 </table>
 
 <br>
-<h2 id="future-considerationss">Future Considerations</h2>
+<h2 id="future-considerations">Future Considerations</h2>
 <h3 id="multimedia-support">Multimedia support</h3>
 <p>
    Currently, Keep It Clean API only supports detecting and blocking of text content. Our reasoning for doing so is as follows. Firstly, a significant portion of    inappropriate video and image content comes in the form of a spam link, which can already bedetected by our service. Secondly, image and video Analysis            is more computation heavy and thus more costly compared to text analysis. However, there are still many clients that would demand such a feature, so it may very well be a feature that is to be developed in the future.
