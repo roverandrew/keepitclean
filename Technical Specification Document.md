@@ -24,7 +24,7 @@
         </ul>
     </li>
     <li><a href="#api-documentation">API Documentation</a></li>
-    <li><a href="#sdk-reference">SDK Reference</a></li>
+    <li><a href="#sdk-reference">Javacsript SDK Reference</a></li>
     <li><a href="#future-considerations">Future Considerations</a>
         <ul>
             <li><a href="#training-our-model">Using Our Own Data To Help Train Our ML Model</a></li>
@@ -105,7 +105,7 @@
 </table>
 <br>
 <p><b>Returned values:</b></p>
-<p>Data is to be received by the client as an object for the given client's programming language.</p>
+<p>Data is to be received by the client as a Javascript object. Currently, we only provide an SDK in Javascript.</p>
 <table>
   <tr>
     <th>Field</th>
@@ -298,7 +298,7 @@ ws.send({
 <p><code>ws.close()</code></p>
 
 <br>
-<h2 id="sdk-reference">SDK Reference</h2>
+<h2 id="sdk-reference">Javacsript SDK Reference</h2>
 
 All request parameters are to be passed to the following functions via an object.<br>
 <h3><code>textCleaner.connect()</code></h3>
@@ -312,7 +312,7 @@ All request parameters are to be passed to the following functions via an object
 <h3><code>textCleaner.cleanedTextData(options)</code></h3>
 
 <p><b>Input parameters:</b></p>
-<p>Parameters are to be passed via a Javascript object</p>
+<p>Parameters are to be passed via an object.</p>
 <table>
   <tr>
     <th>Field</th>
@@ -347,7 +347,7 @@ All request parameters are to be passed to the following functions via an object
 <br>
 
 <p><b>Returned values:</b></p>
-<p>Values returned as a Javacript object</p>
+<p>Values returned as an object.</p>
 <table>
   <tr>
     <th>Field</th>
