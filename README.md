@@ -288,7 +288,7 @@ ws.send({
 <b>Response Example</b>
 ```
 {
-  "score": "70",
+  "score": 70,
   "cleanText": "<This text has been censored as it has been deemed to contain inappropriate content>"
 }
 ```
