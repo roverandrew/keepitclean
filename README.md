@@ -6,7 +6,7 @@
     <li><a href="#introduction">Introduction</a>
         <ul>
             <li><a href="#problem-summary">Problem Summary</a></li>
-            <li><a href="#solution-business-logic">Solution Business Logic</a></li>
+            <li><a href="#solution-business-logic">Business Logic</a></li>
         </ul>
     </li>
     <li><a href="#api-structure-diagram">API Structure Diagram</a></li>
@@ -48,14 +48,73 @@
 <p>As a user of a chat application, I would like any required inappropriate content filter to be accurate and responsive.
 </p>
 
-<h3 id="solution-business-logic">Solution Business Logic</h3>
+<br>
+<h3 id="solution-business-logic">Business Logic</h3>
 <p>Clients may call the <code>contentCleaner.cleanedContentData(options)</code> as they see fit depending on their business requirements.
 <p>
     To check a message for inappropriate content, the client would call the above function when a user receives a message, passing the message content to the         function.
 </p>
 <br>
-<p>The following details the structure of the returned data based on the supplied parameters:</p>
- ![business-logic-flowchart](https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg)
+<p><b>The following details the input parameters:</b></p>
+<table>
+  <tr>
+    <th>Field</th>
+    <th>Definition</th>
+    <th>Required</th>
+    <th>Type</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td>content</td>
+    <td>Text that is to be checked for inappropriate context</td>
+    <td>Yes</td>
+    <td>string</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>threshold</td>
+    <td>Used when a sanitized version of the inappropriate text is to be returned. Determines the threshold score in which a text is considered inappropriate. Must be used with <code>alternativeText</code></td>
+    <td>No</td>
+    <td>integer</td>
+    <td>40</td>
+  </tr>
+   <tr>
+    <td>alternativeText</td>
+    <td>Used when a sanitized version of the inappropriate text is to be returned. An alternative text to replace the original. Must be used with                          <code>threshold</code>
+    </td>
+    <td>No</td>
+    <td>string</td>
+    <td>&lt;This text has been censored as it has been deemed to contain inappropriate content&gt;</td>
+  </tr>
+</table>
+<br>
+<p><b>The following details the returned values:</b></p>
+<table>
+  <tr>
+    <th>Field</th>
+    <th>Definition</th>
+    <th>Type</th>
+  </tr>
+  <tr>
+    <td>score</td>
+    <td>A score from 1-99 representing the likelihood a text contains inappropriate content.
+       <ul>
+         <li>A score of 1 indicates a very low chance that a text contains inappropriate content</li>
+         <li>A score of 99 indicates a very high chance that a text contains inappropriate content</li>
+      </ul>
+    </td>
+    <td>integer</td>
+  </tr>
+  <tr>
+    <td>sanitizedText</td>
+    <td>Returns text sanitized based on the inputted <code>alternativeText</code> parameter</td>
+    <td>string</td>
+  </tr>
+</table>
+
+<br>
+<p><b>The following details the structure of the returned data based on the supplied parameters:</b></p>
+ <img src="https://github.com/roverandrew/keepitclean/blob/main/business-logic-flowchart.jpg" width="800" height="600">
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
 <p>Insert image here</p>
