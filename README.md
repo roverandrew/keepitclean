@@ -49,8 +49,29 @@
 </p>
 
 <h3 id="solution-business-logic">Solution Business Logic</h3>
-<p>PROPOSED SOLUTION CONTENT</p>
+<p>Clients may call the <code>contentCleaner.cleanedContentData(options)</code> as they see fit depending on their business requirements.
+<p>
+    To check a message for inappropriate content, the client would call the above function when a user receives a message, passing the message content to the         function.
+</p>
+<br>
+<p>The following details the structure of the returned data based on the supplied parameters:</p>
+<p>When <code>contentCleaner.cleanedContentData(options)</code> a JSON object with the the following keys is <em>always</em> returned.</p>
+<p><b>If user only passes <code>content</code> as a parameter:</b><p>
 
+<p><em>If there is inappropriate content detected:</em></p>
+        <p><code>score</code> will be returned holding it's calculated value.</p>
+        <p><code>alternativeText</code> will be returned holding it's default value.</p>
+    <p><em>If there is NOT inappropriate content detected:</em></p>
+        <p><code>score</code> will be returned holding it's calculated value.</p>
+        <p><code>alternativeText</code> will be returned, holding the originally inputted text <code>content</code> as it's value.</p>
+<p><em>If user passes both <code>content</code> and <code>alternativeText</code>as a parameter:</em></p>
+    <p><em>If there is inappropriate content detected:</em></p>
+        <p><code>score</code> will be returned holding it's calculated value.</p>
+        <p><code>alternativeText</code> will be returned holding it's inputted value.</p>
+    <p><em>If there is NOT inappropriate content detected:</em></p>
+        <p><code>score</code> will be returned holding it's calculated value.</p>
+        <p><code>alternativeText</code> will be returned, holding the originally inputted text <code>content</code> as it's value.</p>
+    
 <br>
 <h2 id="api-structure-diagram">API Structure Diagram</h2>
 <p>Insert image here</p>
@@ -176,7 +197,7 @@
 </table>
 
 <h3>Response</h3>
-<p><b>WebSocket Response Object Parameters</b></p>
+<p><b>WebSocket JSON Response Object Parameters</b></p>
 <table>
   <tr>
     <th>Field</th>
@@ -261,6 +282,12 @@ Example 2:
 <h3><code>contentCleaner.disconnect()</code></h3>
 <p>Closes the connection to the WebSocket.</p>
 <br>
+
+<h3><code>contentCleaner.cleanedContentData(options)</code></h3>
+<p>Parameters are to be passed in a Javascript object</p>
+<p>Option keys:</p>
+<p><b>content</b></p> : The content that is to bee analyzed for inappropriate content.
+
 <h3><code>contentCleaner.score(options)</code></h3>
 <p>Returns an integer score from 1-99 representing the likelihood a text contains inappropriate content.</p>
 <br>
