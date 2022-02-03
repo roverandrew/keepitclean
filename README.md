@@ -12,7 +12,7 @@
     <li><a href="#solution-business-logic">Text Cleaning Business Logic</a>
          <ul>
             <li><a href="#inputs-outputs">Inputs & Outputs</a></li>
-            <li id="business-logic-flowchart"><a href="#business-logic-flowchart">Flowchart</a></li>
+            <li><a href="#business-logic-flowchart">Flowchart</a></li>
         </ul>
     </li>
     <li><a href="#api-structure-diagram">API Structure Diagram</a></li>
@@ -24,7 +24,7 @@
         </ul>
     </li>
     <li><a href="#api-documentation">API Documentation</a></li>
-    <li><a href="#sdk-reference">Javascript SDK Reference</a></li>
+    <li><a href="#sdk-reference">SDK Reference</a></li>
     <li><a href="#future-considerations">Future Considerations</a>
         <ul>
             <li><a href="#training-our-model">Using Our Own Data To Help Train Our ML Model</a></li>
@@ -70,7 +70,7 @@
 <br>
 <h2 id="business-logic">Text Cleaning Business Logic</h2>
 <h3 id="inputs-outputs">Inputs & Output</h3>
-<p>Data is to be received from the client as a JSON object</p>
+<p>Data is to be received from the client as a JSON object.</p>
 <p><b>Input parameters:</b></p>
 <table>
   <tr>
@@ -142,7 +142,7 @@
 <h3 id="connecting-to-websocket">WebSocket Connection & Authentication</h3>
 <p>Upon opening the given chat application, the client is to make a request to the API Gateway, and provide an authorization token, in our case, an API key. If the API key is valid, the user may make use of the inappropriate content detection features provided by our service. The client provides their users with an API key via a subscription to the <em>Keep It Clean</em> service.</p>
 
-<p><em>Note:</em> The following steps map to those outlined in the <a href="#api-structure-diagram">API Structure Diagram</a><p>
+<p><em>Note:</em> The following steps map to those outlined in the <a href="api-structure-diagram">API Structure Diagram</a><p>
 <br>
 <p><b>Steps 1-3:</b></p>
 <ol>
@@ -167,7 +167,7 @@
                 </ol>
             </li>
             <li>Connect Route Handler saves the WebSocket connection ID to the DynamoDB. 
-                Tracking of the connection IDs may be used for throttling and removing connections.
+                This will be used later to know which socket ID data the returned inappropriate content data should be sent to.
             </li>
         </ol>
         <p><b>NOTE:</b> Policies that evaluate to an authenticated request are to be cached, thus allowing an authorized user to skip the invokation of the                 Authorizer Handler for any subsequent requests (for a set period of time) made to the API Gateway. For our use case, caching time should be set to 30             minutes.
@@ -180,7 +180,7 @@
 <p>
     Our Lambda Function uses the pre-trained model to run our proprietary ML algorithm 
     to determine whether the supplied content is inappropriate or not. Based on the output of the model and the passed parameters, 
-    our <a href="#business-logic-flowchart">business logic</a> determines the data that is to be sent back to the API Gateway.
+    our business logic determines the data that is to be sent back to the API Gateway.
 </p>
 <p id="step-4">Step 4:</p>
 <ol type="a">
@@ -199,7 +199,7 @@
     <li>Invoke Disconnect Route Handler.</li>
     <li>Query for connection ID of user who has disconnected from the WebSocket, and delete their ID.
         Keeping track of IDs is not required, but is a good practice in case for example we would like to throttle any connections 
-        or have further control over who disconnects. Features built on top of the current implementation are likely to make use of it.
+        or have further control over who disconnects.
     </li>
 </ol>
 
@@ -298,7 +298,7 @@ ws.send({
 <p><code>ws.close()</code></p>
 
 <br>
-<h2 id="sdk-reference">Javascript SDK Reference</h2>
+<h2 id="sdk-reference">SDK Reference</h2>
 
 All request parameters are to be passed to the following functions via an object.<br>
 <h3><code>textCleaner.connect()</code></h3>
@@ -312,7 +312,7 @@ All request parameters are to be passed to the following functions via an object
 <h3><code>textCleaner.cleanedTextData(options)</code></h3>
 
 <p><b>Input parameters:</b></p>
-<p>Parameters are to be passed via an object.</p>
+<p>Parameters are to be passed via a Javascript object</p>
 <table>
   <tr>
     <th>Field</th>
@@ -347,7 +347,7 @@ All request parameters are to be passed to the following functions via an object
 <br>
 
 <p><b>Returned values:</b></p>
-<p>Values returned as an object.</p>
+<p>Values returned as a Javacript object</p>
 <table>
   <tr>
     <th>Field</th>
