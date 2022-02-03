@@ -68,7 +68,7 @@
 </p>
 
 <br>
-<h2 id="business-logic">Text Cleaning Business Logic</h2>
+<h2 id="solution-business-logic">Text Cleaning Business Logic</h2>
 <h3 id="inputs-outputs">Inputs & Output</h3>
 <p>Data is to be received from the client as a JSON object.</p>
 <p><b>Input parameters:</b></p>
