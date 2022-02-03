@@ -24,7 +24,7 @@
         </ul>
     </li>
     <li><a href="#api-documentation">API Documentation</a></li>
-    <li><a href="#sdk-reference">SDK Reference</a></li>
+    <li><a href="#sdk-reference">Javascript SDK Reference</a></li>
     <li><a href="#future-considerations">Future Considerations</a>
         <ul>
             <li><a href="#training-our-model">Using Our Own Data To Help Train Our ML Model</a></li>
@@ -298,7 +298,7 @@ ws.send({
 <p><code>ws.close()</code></p>
 
 <br>
-<h2 id="sdk-reference">SDK Reference</h2>
+<h2 id="sdk-reference">Javascript SDK Reference</h2>
 
 All request parameters are to be passed to the following functions via an object.<br>
 <h3><code>textCleaner.connect()</code></h3>
