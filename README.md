@@ -180,11 +180,11 @@
 
 <br>
 <h3 id="return-detection-data">Determine and Return Inappropriate Content Detection Data</h3>
-<p><b>
+<p>
     Our Lambda Function uses the pre-trained model to run our proprietary ML algorithm 
     to determine whether the supplied content is inappropriate or not. Based on the output of the model and the passed parameters, 
     our business logic determines the data that is to be sent back to the API Gateway.
-</b></p>
+</p>
 <p id="step-4">Step 4:</p>
 <ol type="a">
     <li>Invoke Detect Inappropriate Content Lambda Function.</li>
